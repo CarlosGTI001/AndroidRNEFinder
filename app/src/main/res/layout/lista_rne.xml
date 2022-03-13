@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:animateLayoutChanges="true"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <ImageView
+                android:id="@+id/imageCopy"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                app:srcCompat="@drawable/copyblue"
+                tools:ignore="VectorDrawableCompat"
+
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="1dp"
+                android:layout_toEndOf="@+id/imageCopy"
+                android:layout_toRightOf="@+id/imageCopy"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/RNE"
+                    android:layout_width="198dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rne"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/Nombre"
+                    android:layout_width="197dp"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:text="@string/carlos_mejia"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/fecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:text = "@string/_10_10_2001"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/white"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

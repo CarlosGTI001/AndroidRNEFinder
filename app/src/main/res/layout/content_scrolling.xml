@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".formulario"
+    tools:ignore="SpeakableTextPresentCheck"
+    tools:showIn="@layout/activity_formulario">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+
+            android:textColorHint="@color/purple_500"
+            app:boxBackgroundColor="#FFFFFF"
+            app:placeholderTextColor="#FFFFFF"
+            app:prefixTextColor="#FFFFFF"
+            app:startIconTint="#00B0FF">
+
+
+            <EditText
+                android:id="@+id/editPrimerNombre"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="@string/primer_nombre"
+                android:inputType="textPersonName"
+                android:text=""
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:textColorHint="@color/purple_500"
+            app:boxBackgroundColor="#FFFFFF"
+            app:boxCornerRadiusBottomEnd="@dimen/cardview_compat_inset_shadow"
+            app:placeholderTextColor="#FFFFFF"
+            app:prefixTextColor="#FFFFFF"
+            app:startIconTint="#00B0FF">
+
+            <EditText
+                android:id="@+id/editPrimerApellido"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="@string/primer_apellido"
+                android:inputType="textPersonName"
+                android:text=""
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:textColorHint="@color/purple_500"
+            app:boxBackgroundColor="#FFFFFF"
+            app:boxCornerRadiusBottomEnd="@dimen/cardview_compat_inset_shadow"
+            app:placeholderTextColor="#FFFFFF"
+            app:prefixTextColor="#FFFFFF"
+            app:startIconTint="#00B0FF">
+
+            <EditText
+                android:id="@+id/editSegundoApellido"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="@string/segundo_apellido"
+                android:inputType="textPersonName"
+                android:text=""
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:textColorHint="@color/purple_500"
+            app:boxBackgroundColor="#FFFFFF"
+            app:boxCornerRadiusBottomEnd="@dimen/cardview_compat_inset_shadow"
+            app:placeholderTextColor="#FFFFFF"
+            app:prefixTextColor="#FFFFFF"
+            app:startIconTint="#00B0FF">
+
+            <EditText
+                android:id="@+id/editFecha"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="@string/fecha_de_nacimiento"
+                android:inputType="date"
+                android:textIsSelectable="true"
+                tools:ignore="SpeakableTextPresentCheck,UsingOnClickInXml" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Generar RNE"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#D2D2D2" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rne_almacenados"
+            android:textColor="@color/purple_500"
+            android:textSize="16sp"
+            android:padding="15dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rneItems"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
