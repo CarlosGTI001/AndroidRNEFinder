@@ -47,6 +47,7 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:rippleColor="#FFFFFF"
-        app:srcCompat="@android:drawable/ic_dialog_info" />
+        app:srcCompat="@android:drawable/ic_dialog_info"
+        android:layout_marginRight="@dimen/fab_margin" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

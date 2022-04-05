@@ -14,10 +14,14 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,8 +48,7 @@ public class formulario extends AppCompatActivity {
     CRUD insert = new CRUD(formulario.this);
     public RecyclerView rneLista;
     ArrayList<contacto> listArrayContacto;
-
-    @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n"})
+    @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n", "ResourceType"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +62,11 @@ public class formulario extends AppCompatActivity {
         CRUD dbRne = new CRUD(this);
         rneLista = findViewById(R.id.rneItems);
         rneLista.setLayoutManager(new LinearLayoutManager(this));
-        listArrayContacto = new ArrayList<>();
+
         Log.d("DB","RDS");
-        dbRne.leerRne();
-        //ListaContactosAdapter adapter = new ListaContactosAdapter(dbRne.leerRne());
-        //rneLista.setAdapter(adapter);
+
+        ListaContactosAdapter adapter = new ListaContactosAdapter((ArrayList<contacto>) dbRne.leerRne());
+        rneLista.setAdapter(adapter);
         fecha1 = findViewById(R.id.editFecha);
         nombreTxt = findViewById(R.id.editPrimerNombre);
         apellido1Txt = findViewById(R.id.editPrimerApellido);
@@ -97,6 +100,10 @@ public class formulario extends AppCompatActivity {
                 calendariee();
             }
         });
+
+        TextView Nombre, Rne, fecha;
+
+
 
         generarBtn.setOnClickListener(view -> {
             if(nombreTxt.getText().toString().isEmpty()||apellido1Txt.getText().toString().isEmpty()||fecha1.getText().toString().isEmpty()){

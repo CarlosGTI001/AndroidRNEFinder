@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class database extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "historialRNE";
     public static final String TABLE_RNE = "t_rne";
 
@@ -22,7 +22,8 @@ public class database extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "RNE TEXT NOT NULL," +
                 "fecha TEXT," +
-                "nombre TEXT NOT NULL)");
+                "nombre TEXT NOT NULL," +
+                "apellido TEXT NOT NULL)");
 
     }
 

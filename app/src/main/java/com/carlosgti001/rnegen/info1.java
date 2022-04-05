@@ -25,6 +25,9 @@ public class info1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String TABLE_RNE = "t_rne";
+        database db = new database(this);
+        SQLiteDatabase dab = db.getWritableDatabase();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_info1);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -33,7 +36,11 @@ public class info1 extends AppCompatActivity {
         TextView texto = findViewById(R.id.descripcion);
         ImageView img = findViewById(R.id.icono);
         FloatingActionButton fbuton = findViewById(R.id.contiunar);
-
+        /*dab.execSQL("CREATE TABLE "+ TABLE_RNE + "(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "RNE TEXT NOT NULL," +
+                "fecha TEXT," +
+                "nombre TEXT NOT NULL)");*/
         texto.setAnimation(animacion2);
         img.setAnimation(animacion1);
         fbuton.setAnimation(animacion2);

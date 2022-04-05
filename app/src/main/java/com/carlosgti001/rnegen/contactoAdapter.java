@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlosgti001.rnegen.R;
 import com.carlosgti001.rnegen.list.contacto;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +37,8 @@ class ListaContactosAdapter extends RecyclerView.Adapter<ListaContactosAdapter.C
 
     @Override
     public void onBindViewHolder(@NonNull ContactoViewHolder holder, int position) {
-        holder.Nombre.setText(listaContactos.get(position).getNombre());
+        holder.Nombre.setText(listaContactos.get(position).getNombre() + " " + listaContactos.get(position).getApellido());
         holder.Rne.setText(listaContactos.get(position).getRne());
-        holder.fecha.setText(listaContactos.get(position).getFecha());
     }
 
     @Override
@@ -55,10 +55,8 @@ class ListaContactosAdapter extends RecyclerView.Adapter<ListaContactosAdapter.C
 
             Nombre = itemView.findViewById(R.id.Nombre);
             Rne = itemView.findViewById(R.id.RNE);
-            fecha = itemView.findViewById(R.id.fecha);
-
             itemView.setOnClickListener(view -> {
-
+                Snackbar.make(view, Rne.getText(), Snackbar.LENGTH_SHORT).show();
             });
         }
     }

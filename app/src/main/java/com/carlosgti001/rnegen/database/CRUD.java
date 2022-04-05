@@ -4,13 +4,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlosgti001.rnegen.list.contacto;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CRUD extends database {
 
@@ -33,13 +38,15 @@ public class CRUD extends database {
             value.put("fecha", fecha);
             value.put("nombre",  nombre);
             id = db.insert("t_rne", null, value);
+            db.close();
         } catch (Exception ex){
             ex.toString();
         }
         return id;
     }
 
-    public ArrayList<contacto> leerRne(){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public List<contacto> leerRne(){
         Log.d("DB","RNE");
         database data = new database(context);
         SQLiteDatabase db = data.getWritableDatabase();
@@ -49,16 +56,21 @@ public class CRUD extends database {
         contacto contactoElement = null;
         Cursor cursorRne = null;
 
-        cursorRne = db.rawQuery("SELECT * FROM t_rne", null);
+        cursorRne = db.rawQuery("SELECT * FROM t_rne ORDER BY id DESC", null);
         Log.d("DB","Antes");
-        if(cursorRne.moveToFirst()){
-            do{
+        if(cursorRne.moveToFirst()) {
+            for (int contador = 0; contador < cursorRne.getCount(); contador++) {
                 contactoElement = new contacto();
                 contactoElement.setNombre(cursorRne.getString(3));
                 contactoElement.setRne(cursorRne.getString(1));
-                contactoElement.setFecha(cursorRne.getString(2));
-                listaRne.add(contactoElement);
-            } while(cursorRne.moveToFirst());
+                contactoElement.setApellido(cursorRne.getString(4));
+                if (listaRne.add(contactoElement)) {
+                    Log.d("DB", listaRne.get(contador).getRne());
+                    cursorRne.moveToNext();
+                } else {
+                    Log.d("DB", "no leydo");
+                }
+            }
         }
         Log.d("DB","Despues");
         cursorRne.close();
