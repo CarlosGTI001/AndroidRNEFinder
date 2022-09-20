@@ -19,9 +19,8 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/pruebas"
+            android:background="@drawable/dom"
             android:fitsSystemWindows="true"
-            app:contentScrim="@drawable/pruebas"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
