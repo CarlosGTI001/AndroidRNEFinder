@@ -72,22 +72,6 @@ public class formulario extends AppCompatActivity {
         CRUD dbRne = new CRUD(this);
         rneLista = findViewById(R.id.rneItems);
         rneLista.setLayoutManager(new LinearLayoutManager(this));
-        Configuration configuration = new Configuration();
-        int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        switch (currentNightMode) {
-            case Configuration.UI_MODE_NIGHT_NO:
-                Toast toast = new Toast(this);
-                toast.setText("Modo diurno");
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.show();
-                break;
-            case Configuration.UI_MODE_NIGHT_YES:
-                Toast toaste = new Toast(this);
-                toaste.setText("Modo nocturno");
-                toaste.setDuration(Toast.LENGTH_LONG);
-                toaste.show();
-                break;
-        }
         Log.d("DB","RDS");
 
         ListaContactosAdapter adapter = new ListaContactosAdapter((ArrayList<contacto>) dbRne.leerRne());
@@ -105,19 +89,19 @@ public class formulario extends AppCompatActivity {
             startActivity(intent);
         });
 
-        dataSetListener = (datePicker, i, i1, i2) -> {
-            if(i1 < 9){
-                fecha1.setText(i2+"/0"+(i1+1)+"/"+i);
-                if (i2 < 10){
-                    fecha1.setText("0"+i2+"/0"+(i1+1)+"/"+i);
+        dataSetListener = (datePicker, ano, mes, dia) -> {
+            if(mes < 9){
+                fecha1.setText(dia+"/0"+(mes+1)+"/"+ano);
+                if (dia < 10){
+                    fecha1.setText("0"+dia+"/0"+(mes+1)+"/"+ano);
                 }
             }else {
-                if (i2 < 10){
-                    fecha1.setText("0"+i2+"/"+(i1+1)+"/"+i);
+                if (dia < 10){
+                    fecha1.setText("0"+dia+"/"+(mes+1)+"/"+ano);
                 }
             }
-            if(i2 > 9 && i1 > 9){
-                fecha1.setText(i2+"/"+(i1+1)+"/"+1);
+            if(dia > 9 && mes > 9){
+                fecha1.setText(dia+"/"+(mes+1)+"/"+ano);
             }
         };
         fecha1.setOnFocusChangeListener((view, b) -> {
@@ -151,8 +135,7 @@ public class formulario extends AppCompatActivity {
                     String seccondname = apellido2Txt.getText().toString();
                     String fechaFinal = fecha1.getText().toString();
                     Log.d("Fecha Final", fechaFinal);
-                    //String RNE = rneGen(name, firstname, seccondname, fechaFinal);
-                    String RNE = "RNE01010101";
+                    String RNE = rneGen(name, firstname, seccondname, fechaFinal);
                     Date d = new Date(); CharSequence s = DateFormat.format("MMMM d, yyyy ", d.getTime());
 
                     insert.rne(RNE, d.toString(), name);
