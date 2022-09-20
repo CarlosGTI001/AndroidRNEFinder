@@ -17,10 +17,11 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@android:style/Widget.Material.EditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
 
+            android:layout_marginTop="15dp"
             android:textColorHint="@color/purple_500"
             app:boxBackgroundColor="#FFFFFF"
             app:placeholderTextColor="#FFFFFF"
@@ -30,13 +31,16 @@
 
             <EditText
                 android:id="@+id/editPrimerNombre"
-                android:layout_width="match_parent"
+                style="@style/Widget.AppCompat.EditText"
 
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
                 android:hint="@string/primer_nombre"
                 android:inputType="textPersonName"
                 android:text=""
+                android:textColor="#000000"
+                android:textColorHint="#000000"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,6 +64,8 @@
                 android:hint="@string/primer_apellido"
                 android:inputType="textPersonName"
                 android:text=""
+                android:textColor="#000000"
+                android:textColorHint="#000000"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,6 +89,8 @@
                 android:hint="@string/segundo_apellido"
                 android:inputType="textPersonName"
                 android:text=""
+                android:textColor="#000000"
+                android:textColorHint="#000000"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,6 +112,8 @@
                 android:ems="10"
                 android:hint="@string/fecha_de_nacimiento"
                 android:inputType="date"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
                 android:textIsSelectable="true"
                 tools:ignore="SpeakableTextPresentCheck,UsingOnClickInXml" />
 

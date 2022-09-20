@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.carlosgti001.rnegen">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -13,6 +12,7 @@
             android:name=".formulario"
             android:exported="false"
             android:label="@string/title_activity_formulario"
+            android:configChanges="uiMode"
             android:theme="@style/Theme.RNEGEN.NoActionBar" />
         <activity
             android:name=".info2"

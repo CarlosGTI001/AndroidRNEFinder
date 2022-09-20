@@ -1,16 +1,20 @@
 package com.carlosgti001.rnegen;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.UiModeManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.text.Html;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -20,11 +24,13 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,10 +50,14 @@ import java.util.List;
 public class formulario extends AppCompatActivity {
     public EditText fecha1, nombreTxt, apellido1Txt, apellido2Txt;
     public DatePickerDialog.OnDateSetListener dataSetListener;
+
+
     List<ListElement> elements;
     CRUD insert = new CRUD(formulario.this);
     public RecyclerView rneLista;
     ArrayList<contacto> listArrayContacto;
+
+
     @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n", "ResourceType"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -62,7 +72,22 @@ public class formulario extends AppCompatActivity {
         CRUD dbRne = new CRUD(this);
         rneLista = findViewById(R.id.rneItems);
         rneLista.setLayoutManager(new LinearLayoutManager(this));
-
+        Configuration configuration = new Configuration();
+        int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                Toast toast = new Toast(this);
+                toast.setText("Modo diurno");
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.show();
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                Toast toaste = new Toast(this);
+                toaste.setText("Modo nocturno");
+                toaste.setDuration(Toast.LENGTH_LONG);
+                toaste.show();
+                break;
+        }
         Log.d("DB","RDS");
 
         ListaContactosAdapter adapter = new ListaContactosAdapter((ArrayList<contacto>) dbRne.leerRne());
@@ -125,7 +150,9 @@ public class formulario extends AppCompatActivity {
                     String firstname = apellido1Txt.getText().toString();
                     String seccondname = apellido2Txt.getText().toString();
                     String fechaFinal = fecha1.getText().toString();
-                    String RNE = rneGen(name, firstname, seccondname, fechaFinal);
+                    Log.d("Fecha Final", fechaFinal);
+                    //String RNE = rneGen(name, firstname, seccondname, fechaFinal);
+                    String RNE = "RNE01010101";
                     Date d = new Date(); CharSequence s = DateFormat.format("MMMM d, yyyy ", d.getTime());
 
                     insert.rne(RNE, d.toString(), name);
@@ -199,6 +226,11 @@ public class formulario extends AppCompatActivity {
         char[] a2C = ap2.toCharArray();
         char[] fechaDesp = fecha.toCharArray();
         String datoSemiFinal;
+        StringBuilder deb = new StringBuilder();
+        for (char c : fechaDesp) {
+            deb.append(c);
+        }
+        Log.d("Longitud", deb +" tiene :"+fechaDesp.length + " Caracteres");
         datoSemiFinal = ""+ fechaDesp[8] + fechaDesp[9] + fechaDesp[3] + fechaDesp[4] + fechaDesp[0] + fechaDesp[1];
         return ""+n1C[0]+a1C[0]+a2C[0]+datoSemiFinal + "0001";
     }
