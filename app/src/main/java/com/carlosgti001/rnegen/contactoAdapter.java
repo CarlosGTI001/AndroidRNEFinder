@@ -37,7 +37,7 @@ class ListaContactosAdapter extends RecyclerView.Adapter<ListaContactosAdapter.C
 
     @Override
     public void onBindViewHolder(@NonNull ContactoViewHolder holder, int position) {
-        holder.Nombre.setText(listaContactos.get(position).getNombre() + " " + listaContactos.get(position).getApellido());
+        holder.Nombre.setText(listaContactos.get(position).getNombre() + " " + listaContactos.get(position).getFecha());
         holder.Rne.setText(listaContactos.get(position).getRne());
     }
 
@@ -56,7 +56,7 @@ class ListaContactosAdapter extends RecyclerView.Adapter<ListaContactosAdapter.C
             Nombre = itemView.findViewById(R.id.Nombre);
             Rne = itemView.findViewById(R.id.RNE);
             itemView.setOnClickListener(view -> {
-                Snackbar.make(view, Rne.getText(), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(view, "El RNE: " + Rne.getText() + " fue copiado con exito", Snackbar.LENGTH_SHORT).show();
             });
         }
     }

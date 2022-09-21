@@ -1,11 +1,15 @@
 package com.carlosgti001.rnegen;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -63,5 +67,20 @@ public class info1 extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        Log.d("Configuracion","true");
+        int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                Toast.makeText(this, "Modo no oscuro", Toast.LENGTH_LONG).show();
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                Toast.makeText(this, "Modo oscuro", Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 }

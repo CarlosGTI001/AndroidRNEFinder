@@ -55,7 +55,7 @@
                     android:layout_width="198dp"
                     android:layout_height="wrap_content"
                     android:text="@string/rne"
-                    android:textColor="@color/black"
+                    android:textColor="#6A6A6A"
                     android:textSize="20dp" />
 
                 <TextView
@@ -63,7 +63,7 @@
                     android:layout_width="197dp"
                     android:layout_height="match_parent"
                     android:text="@string/carlos_mejia"
-                    android:textColor="@color/black"
+                    android:textColor="#6A6A6A"
                     android:textSize="20dp" />
             </LinearLayout>
 

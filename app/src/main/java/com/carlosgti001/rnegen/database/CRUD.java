@@ -38,6 +38,7 @@ public class CRUD extends database {
             value.put("fecha", fecha);
             value.put("nombre",  nombre);
             id = db.insert("t_rne", null, value);
+            Log.d("Insertado", ""+id);
             db.close();
         } catch (Exception ex){
             ex.toString();
@@ -50,7 +51,13 @@ public class CRUD extends database {
         Log.d("DB","RNE");
         database data = new database(context);
         SQLiteDatabase db = data.getWritableDatabase();
-
+        db.execSQL(
+                "CREATE TABLE IF NOT EXISTS "+ TABLE_RNE + "(" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "RNE TEXT NOT NULL," +
+                        "fecha TEXT," +
+                        "nombre TEXT NOT NULL)");
+        Log.d("DataBase123", "Paso2");
         ArrayList<contacto> listaRne;
         listaRne = new ArrayList<>();
         contacto contactoElement = null;
@@ -63,7 +70,7 @@ public class CRUD extends database {
                 contactoElement = new contacto();
                 contactoElement.setNombre(cursorRne.getString(3));
                 contactoElement.setRne(cursorRne.getString(1));
-                contactoElement.setApellido(cursorRne.getString(4));
+                contactoElement.setFecha(cursorRne.getString(2));
                 if (listaRne.add(contactoElement)) {
                     Log.d("DB", listaRne.get(contador).getRne());
                     cursorRne.moveToNext();

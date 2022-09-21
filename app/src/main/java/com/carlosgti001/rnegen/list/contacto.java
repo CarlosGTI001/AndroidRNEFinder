@@ -5,7 +5,6 @@ public class contacto
     private String nombre;
     private String rne;
     private String fecha;
-    private String apellido;
 
     public String getNombre() {
         return nombre;
@@ -24,11 +23,5 @@ public class contacto
     }
     public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-    public void setApellido (String apellido){
-        this.apellido = apellido;
-    }
-    public String getApellido (){
-        return apellido;
     }
 }

@@ -4,7 +4,6 @@ public class ListElement {
     public String nombre;
     public String RNE;
     public String fecha;
-    public String apellido;
 
     public String getNombre() {
         return nombre;
@@ -23,11 +22,5 @@ public class ListElement {
     }
     public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-    public void setApellido (String apellido){
-        this.apellido = apellido;
-    }
-    public String getApellido (){
-        return apellido;
     }
 }
