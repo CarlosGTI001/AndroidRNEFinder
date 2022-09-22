@@ -35,7 +35,7 @@
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
                 ads:adSize="BANNER"
-                ads:adUnitId="@string/bannerejemplo"
+                ads:adUnitId="@string/adTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

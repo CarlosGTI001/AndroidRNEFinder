@@ -38,7 +38,7 @@
         android:layout_height="47dp"
         android:layout_marginBottom="16dp"
         ads:adSize="@string/Banner"
-        ads:adUnitId="@string/bannerejemplo"
+        ads:adUnitId="@string/adTest"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.686"

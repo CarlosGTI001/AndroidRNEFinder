@@ -174,7 +174,7 @@ public class formulario extends AppCompatActivity {
                         clipboard.setPrimaryClip(clip);
                         Snackbar.make(view, R.string.copiado, Snackbar.LENGTH_SHORT).show();
                         Intent ir = new Intent("android.intent.action.VIEW", Uri.parse("https://certificado.ministeriodeeducacion.gob.do/"));
-                        interstitialAd.show(formulario.this);
+
                         startActivity(ir);
 
 
@@ -276,7 +276,7 @@ public class formulario extends AppCompatActivity {
             AdRequest adRequest = new AdRequest.Builder().build();
             InterstitialAd.load(
                     this,
-                    getString(R.string.pantallacompletaejemplo),
+                    getString(R.string.anuncioPantallaCompleta),
                     adRequest,
                     new InterstitialAdLoadCallback() {
                         @Override
@@ -285,7 +285,7 @@ public class formulario extends AppCompatActivity {
                             // an ad is loaded.
                             formulario.this.interstitialAd = interstitialAd;
                             Log.i(TAG, "onAdLoaded");
-
+                            formulario.this.interstitialAd.show(formulario.this);
                             interstitialAd.setFullScreenContentCallback(
                                     new FullScreenContentCallback() {
                                         @Override
@@ -294,7 +294,7 @@ public class formulario extends AppCompatActivity {
                                             // Make sure to set your reference to null so you don't
                                             // show it a second time.
                                             formulario.this.interstitialAd = null;
-                                            Log.d("TAG", "The ad was dismissed.");
+                                            Log.d("anuncios", "The ad was dismissed.");
                                         }
 
                                         @Override
@@ -303,13 +303,13 @@ public class formulario extends AppCompatActivity {
                                             // Make sure to set your reference to null so you don't
                                             // show it a second time.
                                             formulario.this.interstitialAd = null;
-                                            Log.d("TAG", "The ad failed to show.");
+                                            Log.d("anuncios", "The ad failed to show.");
                                         }
 
                                         @Override
                                         public void onAdShowedFullScreenContent() {
                                             // Called when fullscreen content is shown.
-                                            Log.d("TAG", "The ad was shown.");
+                                            Log.d("anuncios", "The ad was shown.");
                                         }
                                     });
                         }
@@ -317,7 +317,7 @@ public class formulario extends AppCompatActivity {
                         @Override
                         public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                             // Handle the error
-                            Log.i(TAG, loadAdError.getMessage());
+                            Log.i("Anuncio", loadAdError.getMessage());
                             interstitialAd = null;
 
                             String error =
