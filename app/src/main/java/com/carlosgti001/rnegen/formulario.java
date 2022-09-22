@@ -322,7 +322,7 @@ public class formulario extends AppCompatActivity {
 
                             String error =
                                     String.format(
-                                            "domain: %s, code: %d, message: %s",
+                                            "domain: %s, code: %d, mes sage: %s",
                                             loadAdError.getDomain(), loadAdError.getCode(), loadAdError.getMessage());
                         }
                     });
