@@ -9,7 +9,7 @@
     <string name="fecha_de_nacimiento">Fecha de Nacimiento</string>
     <string name="copiado">Copiado</string>
     <string name="alertaVacio">Lo sentimos, el unico campo que puede estar vacio es el <b>segundo apellido</b>. \n en caso de que no tengas, pero debes ingresar todos los campos obligatorios como primer nombre, primer apellido y fecha.</string>
-    <string name="aviso2doApellidp">1. Ninguno de los datos utilizados en esta aplicacion son recopilados para uso de <b>terceros</b>.\n\n 2. Recordar que si tienes solo un <b>apellido</b>, no es necesario rellenar el campo de <b>segundo apellido</b></string>
+    <string name="aviso2doApellidp">1. Ninguno de los datos utilizados en esta aplicacion son recopilados para uso de <b>terceros</b>.\n\n 2. Recordar que si tienes solo un <b>apellido</b>, no es necesario rellenar el campo de <b>segundo apellido</b>.\n\n 3. Lee y acepta las politicas de privacidad y manejo de datos:</string>
     <string name="rne_almacenados">RNE Almacenados</string>
     <string name="rne">RNE: CMC010125001</string>
     <string name="ctc0101250001">CTC0101250001</string>
@@ -21,4 +21,5 @@
     <string name="pantallacompletaejemplo">ca-app-pub-3940256099942544/1033173712</string>
     <string name="adAppEjemplo">ca-app-pub-3940256099942544~3347511713</string>
     <string name="bannerejemplo">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="Banner">BANNER</string>
 </resources>
