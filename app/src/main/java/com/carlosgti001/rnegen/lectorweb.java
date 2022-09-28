@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.widget.Button;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -13,6 +14,7 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 
 public class lectorweb extends AppCompatActivity {
 
+    public Button salir;
     public String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,11 @@ public class lectorweb extends AppCompatActivity {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
+        });
+
+        salir = findViewById(R.id.cerrar);
+        salir.setOnClickListener(v -> {
+            finish();
         });
         AdView adView = new AdView(this);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -33,7 +40,4 @@ public class lectorweb extends AppCompatActivity {
 
     }
 
-    public void cerrar (){
-        finishActivity(0);
-    }
 }
