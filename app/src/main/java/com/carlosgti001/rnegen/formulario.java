@@ -259,7 +259,7 @@ public class formulario extends AppCompatActivity implements IUnityAdsInitializa
             ap2 = apellido2;
         }
         char[] fechaDesp = fecha.toCharArray();
-        return nombre.substring(0, 0) + apellido1.substring(0, 0) + ap2.substring(0,0) + fechaDesp[8] + fechaDesp[9] + fechaDesp[3] + fechaDesp[4] + fechaDesp[0] + fechaDesp[1] + "0001";
+        return "" +  nombre.charAt(0) + apellido1.charAt(0) + ap2.charAt(0) + fechaDesp[8] + fechaDesp[9] + fechaDesp[3] + fechaDesp[4] + fechaDesp[0] + fechaDesp[1] + "0001";
     }
 
     public void upload() {
