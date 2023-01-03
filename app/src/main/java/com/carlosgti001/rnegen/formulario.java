@@ -1,7 +1,6 @@
 package com.carlosgti001.rnegen;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-import static com.google.android.gms.ads.AdSize.BANNER;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -42,35 +41,63 @@ import com.carlosgti001.rnegen.database.CRUD;
 import com.carlosgti001.rnegen.database.database;
 import com.carlosgti001.rnegen.databinding.ActivityFormularioBinding;
 import com.carlosgti001.rnegen.list.contacto;
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.unity3d.ads.IUnityAdsInitializationListener;
+import com.unity3d.ads.IUnityAdsLoadListener;
+import com.unity3d.ads.IUnityAdsShowListener;
+import com.unity3d.ads.UnityAds;
+import com.unity3d.ads.UnityAdsShowOptions;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class formulario extends AppCompatActivity {
+public class formulario extends AppCompatActivity implements IUnityAdsInitializationListener {
     public EditText fecha1, nombreTxt, apellido1Txt, apellido2Txt;
     public DatePickerDialog.OnDateSetListener dataSetListener;
-    private InterstitialAd mInterstitialAd;
-    private InterstitialAd interstitialAd;
-
+    private Boolean testMode = true;
+    private String adUnitId = "Interstitial_Android";
+    String unityGameID = "4056667";
     List<ListElement> elements;
     public RecyclerView rneLista;
     ArrayList<contacto> listArrayContacto;
-    private AdView mAdView;
+
+
+    private IUnityAdsLoadListener loadListener = new IUnityAdsLoadListener() {
+        @Override
+        public void onUnityAdsAdLoaded(String placementId) {
+            UnityAds.show(formulario.this, adUnitId, new UnityAdsShowOptions(), showListener);
+        }
+
+        @Override
+        public void onUnityAdsFailedToLoad(String placementId, UnityAds.UnityAdsLoadError error, String message) {
+            Log.e("UnityAdsExample", "Unity Ads failed to load ad for " + placementId + " with error: [" + error + "] " + message);
+        }
+    };
+
+    private IUnityAdsShowListener showListener = new IUnityAdsShowListener() {
+        @Override
+        public void onUnityAdsShowFailure(String placementId, UnityAds.UnityAdsShowError error, String message) {
+            Log.e("UnityAdsExample", "Unity Ads failed to show ad for " + placementId + " with error: [" + error + "] " + message);
+        }
+
+        @Override
+        public void onUnityAdsShowStart(String placementId) {
+            Log.v("UnityAdsExample", "onUnityAdsShowStart: " + placementId);
+        }
+
+        @Override
+        public void onUnityAdsShowClick(String placementId) {
+            Log.v("UnityAdsExample", "onUnityAdsShowClick: " + placementId);
+        }
+
+        @Override
+        public void onUnityAdsShowComplete(String placementId, UnityAds.UnityAdsShowCompletionState state) {
+            Log.v("UnityAdsExample", "onUnityAdsShowComplete: " + placementId);
+        }
+    };
 
     @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n", "ResourceType"})
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -81,22 +108,20 @@ public class formulario extends AppCompatActivity {
         setContentView(binding.getRoot());
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
+        UnityAds.initialize(getApplicationContext(), unityGameID, testMode, this);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
         toolBarLayout.setTitle("Formulario");
         CRUD dbRne = new CRUD(this);
         rneLista = findViewById(R.id.rneItems);
         rneLista.setLayoutManager(new LinearLayoutManager(this));
-        Log.d("DB","RDS");
+        Log.d("DB", "RDS");
         actualizar();
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-        mAdView = findViewById(R.id.adView);
+        /*mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        loadAd();*/
         fecha1 = findViewById(R.id.editFecha);
         nombreTxt = findViewById(R.id.editPrimerNombre);
         apellido1Txt = findViewById(R.id.editPrimerApellido);
@@ -109,25 +134,24 @@ public class formulario extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         });
-        loadAd();
 
         dataSetListener = (datePicker, ano, mes, dia) -> {
-            if(mes < 9){
-                fecha1.setText(dia+"/0"+(mes+1)+"/"+ano);
-                if (dia < 10){
-                    fecha1.setText("0"+dia+"/0"+(mes+1)+"/"+ano);
+            if (mes < 9) {
+                fecha1.setText(dia + "/0" + (mes + 1) + "/" + ano);
+                if (dia < 10) {
+                    fecha1.setText("0" + dia + "/0" + (mes + 1) + "/" + ano);
                 }
-            }else {
-                if (dia < 10){
-                    fecha1.setText("0"+dia+"/"+(mes+1)+"/"+ano);
+            } else {
+                if (dia < 10) {
+                    fecha1.setText("0" + dia + "/" + (mes + 1) + "/" + ano);
                 }
             }
-            if(dia > 9 && mes > 9){
-                fecha1.setText(dia+"/"+(mes+1)+"/"+ano);
+            if (dia > 9 && mes > 9) {
+                fecha1.setText(dia + "/" + (mes + 1) + "/" + ano);
             }
         };
         fecha1.setOnFocusChangeListener((view, b) -> {
-            if (b){
+            if (b) {
                 calendariee();
             }
         });
@@ -135,9 +159,8 @@ public class formulario extends AppCompatActivity {
         TextView Nombre, Rne, fecha;
 
 
-
         generarBtn.setOnClickListener(view -> {
-            if(nombreTxt.getText().toString().isEmpty()||apellido1Txt.getText().toString().isEmpty()||fecha1.getText().toString().isEmpty()){
+            if (nombreTxt.getText().toString().isEmpty() || apellido1Txt.getText().toString().isEmpty() || fecha1.getText().toString().isEmpty()) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(formulario.this);
                 alertDialog.setTitle("Alerta");
                 alertDialog.setMessage(R.string.alertaVacio);
@@ -146,19 +169,25 @@ public class formulario extends AppCompatActivity {
                 });
                 alertDialog.create();
                 alertDialog.show();
-            }else {
+            } else {
                 AlertDialog.Builder alertDialogo = new AlertDialog.Builder(formulario.this);
                 alertDialogo.setTitle("Aviso");
                 alertDialogo.setMessage(Html.fromHtml("Recuerda que el final del RNE es 0001, en caso de no funcionar, recuerda cambiarlo por 0002 o 0003 o 0004 o 0005, si aun no funciona debes comunicarte con el ministerio de educacion.."));
                 alertDialogo.setPositiveButton(Html.fromHtml("<b>Generar RNE</b>"), (dialogInterface, i) -> {
-
+                    if(estado){
+                        DisplayInterstitialAd();
+                    }else{
+                        Toast toast = Toast.makeText(this, "nocargado", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                     String name = nombreTxt.getText().toString();
                     String firstname = apellido1Txt.getText().toString();
                     String seccondname = apellido2Txt.getText().toString();
                     String fechaFinal = fecha1.getText().toString();
                     Log.d("Fecha Final", fechaFinal);
                     String RNE = rneGen(name, firstname, seccondname, fechaFinal);
-                    Date d = new Date(); CharSequence s = DateFormat.format("MMMM d, yyyy ", d.getTime());
+                    Date d = new Date();
+                    CharSequence s = DateFormat.format("MMMM d, yyyy ", d.getTime());
                     dbRne.rne(RNE, d.toString(), name);
                     dbRne.leerRne();
                     dbRne.close();
@@ -176,7 +205,6 @@ public class formulario extends AppCompatActivity {
                         Intent ir = new Intent("android.intent.action.VIEW", Uri.parse("https://certificado.ministeriodeeducacion.gob.do/"));
 
                         startActivity(ir);
-
 
 
                     });
@@ -223,35 +251,25 @@ public class formulario extends AppCompatActivity {
         dialog.show();
     }
 
-    public String rneGen(String nombre, String apellido1, String apellido2, String fecha){
+    public String rneGen(String nombre, String apellido1, String apellido2, String fecha) {
         String ap2;
-        if(apellido2.isEmpty()){
+        if (apellido2.isEmpty()) {
             ap2 = "-";
-        }else{
+        } else {
             ap2 = apellido2;
         }
-        char[] n1C = nombre.toCharArray();
-        char[] a1C = apellido1.toCharArray();
-        char[] a2C = ap2.toCharArray();
         char[] fechaDesp = fecha.toCharArray();
-        String datoSemiFinal;
-        StringBuilder deb = new StringBuilder();
-        for (char c : fechaDesp) {
-            deb.append(c);
-        }
-        Log.d("Longitud", deb +" tiene :"+fechaDesp.length + " Caracteres");
-        datoSemiFinal = ""+ fechaDesp[8] + fechaDesp[9] + fechaDesp[3] + fechaDesp[4] + fechaDesp[0] + fechaDesp[1];
-        return ""+n1C[0]+a1C[0]+a2C[0]+datoSemiFinal + "0001";
+        return nombre.substring(0, 0) + apellido1.substring(0, 0) + ap2.substring(0,0) + fechaDesp[8] + fechaDesp[9] + fechaDesp[3] + fechaDesp[4] + fechaDesp[0] + fechaDesp[1] + "0001";
     }
 
-    public void upload(){
+    public void upload() {
 
     }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration configuration) {
         super.onConfigurationChanged(configuration);
-        Log.d("Configuracion","true");
+        Log.d("Configuracion", "true");
         int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (currentNightMode) {
             case Configuration.UI_MODE_NIGHT_NO:
@@ -263,7 +281,7 @@ public class formulario extends AppCompatActivity {
         }
     }
 
-    public void actualizar(){
+    public void actualizar() {
         CRUD dbRne = new CRUD(this);
         ListaContactosAdapter adapter = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -271,61 +289,20 @@ public class formulario extends AppCompatActivity {
         }
         rneLista.setAdapter(adapter);
     }
+    boolean estado = false;
+    @Override
+    public void onInitializationComplete() {
+        estado = true;
+    }
 
-        public void loadAd() {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            InterstitialAd.load(
-                    this,
-                    getString(R.string.anuncioPantallaCompleta),
-                    adRequest,
-                    new InterstitialAdLoadCallback() {
-                        @Override
-                        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                            // The mInterstitialAd reference will be null until
-                            // an ad is loaded.
-                            formulario.this.interstitialAd = interstitialAd;
-                            Log.i(TAG, "onAdLoaded");
-                            formulario.this.interstitialAd.show(formulario.this);
-                            interstitialAd.setFullScreenContentCallback(
-                                    new FullScreenContentCallback() {
-                                        @Override
-                                        public void onAdDismissedFullScreenContent() {
-                                            // Called when fullscreen content is dismissed.
-                                            // Make sure to set your reference to null so you don't
-                                            // show it a second time.
-                                            formulario.this.interstitialAd = null;
-                                            Log.d("anuncios", "The ad was dismissed.");
-                                        }
+    @Override
+    public void onInitializationFailed(UnityAds.UnityAdsInitializationError unityAdsInitializationError, String s) {
 
-                                        @Override
-                                        public void onAdFailedToShowFullScreenContent(AdError adError) {
-                                            // Called when fullscreen content failed to show.
-                                            // Make sure to set your reference to null so you don't
-                                            // show it a second time.
-                                            formulario.this.interstitialAd = null;
-                                            Log.d("anuncios", "The ad failed to show.");
-                                        }
+    }
 
-                                        @Override
-                                        public void onAdShowedFullScreenContent() {
-                                            // Called when fullscreen content is shown.
-                                            Log.d("anuncios", "The ad was shown.");
-                                        }
-                                    });
-                        }
-
-                        @Override
-                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                            // Handle the error
-                            Log.i("Anuncio", loadAdError.getMessage());
-                            interstitialAd = null;
-
-                            String error =
-                                    String.format(
-                                            "domain: %s, code: %d, mes sage: %s",
-                                            loadAdError.getDomain(), loadAdError.getCode(), loadAdError.getMessage());
-                        }
-                    });
+    // Implement a function to load an interstitial ad. The ad will start to show after the ad has been loaded.
+    public void DisplayInterstitialAd () {
+        UnityAds.load(adUnitId, loadListener);
     }
 }
 

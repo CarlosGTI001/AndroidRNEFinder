@@ -32,15 +32,17 @@
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView2"
-        android:layout_width="256dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="16dp"
-        ads:adSize="@string/Banner"
-        ads:adUnitId="@string/adTest"
+    <RelativeLayout
+        android:id="@+id/banner"
+        android:layout_width="305dp"
+        android:layout_height="79dp"
+        android:layout_marginStart="89dp"
+        android:layout_marginTop="1dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.686"
-        app:layout_constraintStart_toEndOf="@+id/cerrar" />
+        app:layout_constraintStart_toStartOf="@+id/cerrar"
+        app:layout_constraintTop_toBottomOf="@+id/vistaweb" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
