@@ -1,5 +1,6 @@
 package com.carlosgti001.rnegen.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -26,21 +27,43 @@ public class CRUD extends database {
         this.context = context;
     }
 
+    public boolean buscarRNE(String RNE){
+        database dbHelper = new database(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursorRne = null;
+        cursorRne = db.rawQuery("SELECT * FROM t_rne WHERE rne = ?", new String[]{RNE}, null);
+        int cantidad = cursorRne.getCount();
+        db.close();
+        return cantidad > 0;
+    }
+
+    @SuppressLint("Range")
     public long rne (String RNE, String fecha, String nombre)
     {
         long id = 0;
         try {
             database dbHelper = new database(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            ContentValues value = new ContentValues();
 
-            value.put("rne", RNE);
-            value.put("fecha", fecha);
-            value.put("nombre",  nombre);
-            id = db.insert("t_rne", null, value);
-            Log.d("Insertado", ""+id);
-            db.close();
-        } catch (Exception ex){
+            // Verificar si ya existe el registro con el mismo RNE
+            Cursor cursor = db.rawQuery("SELECT id FROM t_rne WHERE rne = ?", new String[]{RNE});
+            if (cursor != null && cursor.getCount() > 0) {
+                // Si existe, obtener el ID y cerrar el cursor y la base de datos
+                cursor.moveToFirst();
+                id = cursor.getLong(cursor.getColumnIndex("id"));
+                cursor.close();
+                db.close();
+            } else {
+                // Si no existe, insertar el nuevo registro
+                ContentValues value = new ContentValues();
+                value.put("rne", RNE);
+                value.put("fecha", fecha);
+                value.put("nombre", nombre);
+                id = db.insert("t_rne", null, value);
+                Log.d("Insertado", "" + id);
+                db.close();
+            }
+        } catch (Exception ex) {
             ex.toString();
         }
         return id;

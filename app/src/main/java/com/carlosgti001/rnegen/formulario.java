@@ -50,9 +50,11 @@ import com.unity3d.ads.IUnityAdsShowListener;
 import com.unity3d.ads.UnityAds;
 import com.unity3d.ads.UnityAdsShowOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class formulario extends AppCompatActivity implements IUnityAdsInitializationListener {
     public EditText fecha1, nombreTxt, apellido1Txt, apellido2Txt;
@@ -188,45 +190,57 @@ public class formulario extends AppCompatActivity implements IUnityAdsInitializa
                     String RNE = rneGen(name, firstname, seccondname, fechaFinal);
                     Date d = new Date();
                     CharSequence s = DateFormat.format("MMMM d, yyyy ", d.getTime());
-                    dbRne.rne(RNE, d.toString(), name);
-                    dbRne.leerRne();
-                    dbRne.close();
-                    actualizar();
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(formulario.this);
-                    alertDialog.setTitle("RNE Generado");
-                    alertDialog.setMessage(Html.fromHtml("Tu RNE de las pruebas nacionales es: <b>" + RNE + "</b>, Si esta app te fue de mucha ayuda puedes valorarla con <b>5 Estrellas!</b>, Por cierto... Que deseas hacer con el RNE?."));
+                    SimpleDateFormat sdf = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+                    String formattedDate = sdf.format(d);
+                    if(dbRne.buscarRNE(RNE)){
+                        AlertDialog.Builder alerta = new AlertDialog.Builder(formulario.this);
+                        alerta.setTitle("Aviso");
+                        alerta.setMessage("Este RNE ya existe en el sistema");
+                        alerta.setNeutralButton("Ok", (dialogInterface1, i1)->{});
+                        alerta.create();
+                        alerta.show();
+                    }
+                    else {
+                        dbRne.rne(RNE, formattedDate, name);
+                        dbRne.leerRne();
+                        dbRne.close();
+                        actualizar();
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(formulario.this);
+                        alertDialog.setTitle("RNE Generado");
+                        alertDialog.setMessage(Html.fromHtml("Tu RNE de las pruebas nacionales es: <b>" + RNE + "</b>, Si esta app te fue de mucha ayuda puedes valorarla con <b>5 Estrellas!</b>, Por cierto... Que deseas hacer con el RNE?."));
 
-                    alertDialog.setPositiveButton("Copiar e ir por el certificado", (dialogInterface1, i1) -> {
-                        ClipboardManager clipboard = (ClipboardManager)
-                                getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("RNE", RNE);
-                        clipboard.setPrimaryClip(clip);
-                        Snackbar.make(view, R.string.copiado, Snackbar.LENGTH_SHORT).show();
-                        Intent ir = new Intent("android.intent.action.VIEW", Uri.parse("https://certificado.ministeriodeeducacion.gob.do/"));
+                        alertDialog.setPositiveButton("Copiar e ir por el certificado", (dialogInterface1, i1) -> {
+                            ClipboardManager clipboard = (ClipboardManager)
+                                    getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("RNE", RNE);
+                            clipboard.setPrimaryClip(clip);
+                            Snackbar.make(view, R.string.copiado, Snackbar.LENGTH_SHORT).show();
+                            Intent ir = new Intent("android.intent.action.VIEW", Uri.parse("https://certificado.ministeriodeeducacion.gob.do/"));
 
-                        startActivity(ir);
+                            startActivity(ir);
 
 
-                    });
-                    alertDialog.setNegativeButton("Compartir", (dialogInterface1, i1) -> {
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, RNE);
-                        sendIntent.setType("text/plain");
-                        Intent shareIntent = Intent.createChooser(sendIntent, null);
-                        startActivity(shareIntent);
-                    });
-                    alertDialog.setNeutralButton("Valorarnos con 5 Estrellas", (dialogInterface1, i1) -> {
-                        ClipboardManager clipboard = (ClipboardManager)
-                                getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("RNE", RNE);
-                        clipboard.setPrimaryClip(clip);
+                        });
+                        alertDialog.setNegativeButton("Compartir", (dialogInterface1, i1) -> {
+                            Intent sendIntent = new Intent();
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, RNE);
+                            sendIntent.setType("text/plain");
+                            Intent shareIntent = Intent.createChooser(sendIntent, null);
+                            startActivity(shareIntent);
+                        });
+                        alertDialog.setNeutralButton("Valorarnos con 5 Estrellas", (dialogInterface1, i1) -> {
+                            ClipboardManager clipboard = (ClipboardManager)
+                                    getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("RNE", RNE);
+                            clipboard.setPrimaryClip(clip);
 
-                        Intent lo = new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=com.carlosgti001.rnegen"));
-                        startActivity(lo);
-                    });
-                    alertDialog.create();
-                    alertDialog.show();
+                            Intent lo = new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=com.carlosgti001.rnegen"));
+                            startActivity(lo);
+                        });
+                        alertDialog.create();
+                        alertDialog.show();
+                    }
                 });
                 alertDialogo.create();
                 alertDialogo.show();
@@ -283,9 +297,11 @@ public class formulario extends AppCompatActivity implements IUnityAdsInitializa
 
     public void actualizar() {
         CRUD dbRne = new CRUD(this);
+        ClipboardManager clipboard = (ClipboardManager)
+                getSystemService(Context.CLIPBOARD_SERVICE);
         ListaContactosAdapter adapter = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            adapter = new ListaContactosAdapter((ArrayList<contacto>) dbRne.leerRne());
+            adapter = new ListaContactosAdapter((ArrayList<contacto>) dbRne.leerRne(), clipboard, this);
         }
         rneLista.setAdapter(adapter);
     }

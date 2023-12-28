@@ -1,5 +1,7 @@
 package com.carlosgti001.rnegen;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -12,20 +14,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.carlosgti001.rnegen.R;
 import com.carlosgti001.rnegen.list.contacto;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 class ListaContactosAdapter extends RecyclerView.Adapter<ListaContactosAdapter.ContactoViewHolder> {
 
     ArrayList<contacto> listaContactos;
-
-    public ListaContactosAdapter(ArrayList<contacto> listaContactos) {
+    Context _formulario;
+    ClipboardManager _clipboardManager;
+    public ListaContactosAdapter(ArrayList<contacto> listaContactos, ClipboardManager clipboard, Context formulario) {
         this.listaContactos = listaContactos;
+        _clipboardManager = clipboard;
+        _formulario = formulario;
+    }
+
+    public ListaContactosAdapter(ClipboardManager clipboardManager) {
+        _clipboardManager = clipboardManager;
+
     }
 
     @NonNull
@@ -54,9 +61,17 @@ class ListaContactosAdapter extends RecyclerView.Adapter<ListaContactosAdapter.C
             super(itemView);
 
             Nombre = itemView.findViewById(R.id.Nombre);
+
             Rne = itemView.findViewById(R.id.RNE);
+
             itemView.setOnClickListener(view -> {
-                Snackbar.make(view, "El RNE: " + Rne.getText() + " fue copiado con exito", Snackbar.LENGTH_SHORT).show();
+                //TODO COPIAR ESTO EN EL OTRO FORM
+//                ClipData clip = ClipData.newPlainText("Copied Text", Rne.getText());
+//                _clipboardManager.setPrimaryClip(clip);
+//                Snackbar.make(view, "El RNE: " + Rne.getText() + " fue copiado con exito", Snackbar.LENGTH_SHORT).show();
+                Intent intent = new Intent(_formulario, RNEDetail.class);
+                intent.putExtra("rne", Rne.getText());
+                _formulario.startActivity(intent);
             });
         }
     }
