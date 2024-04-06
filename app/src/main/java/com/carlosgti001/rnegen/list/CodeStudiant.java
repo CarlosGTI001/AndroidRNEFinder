@@ -1,6 +1,6 @@
 package com.carlosgti001.rnegen.list;
 
-public class contacto
+public class CodeStudiant
 {
     private String nombre;
     private String rne;

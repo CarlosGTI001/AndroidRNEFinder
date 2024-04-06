@@ -10,12 +10,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.carlosgti001.rnegen.list.contacto;
+import com.carlosgti001.rnegen.list.CodeStudiant;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CRUD extends database {
@@ -36,6 +34,41 @@ public class CRUD extends database {
         db.close();
         return cantidad > 0;
     }
+
+    public boolean eliminarRNE(String RNE){
+        database dbHelper = new database(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        // Suponiendo que "db" es tu instancia de SQLiteDatabase y "RNE" es el valor que deseas utilizar para eliminar las filas
+        String tabla = "t_rne";
+        String columna = "rne";
+        String[] valores = new String[]{RNE};
+
+        // Eliminar filas de la tabla donde la columna "rne" coincide con el valor de "RNE"
+        int filasEliminadas = db.delete(tabla, columna + " = ?", valores);
+
+        db.close();
+        // Verificar si se eliminaron filas
+        if (filasEliminadas > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public CodeStudiant leerRNE(String RNE){
+        database dbHelper = new database(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursorRne = null;
+        cursorRne = db.rawQuery("SELECT * FROM t_rne WHERE rne = ?", new String[]{RNE}, null);
+        CodeStudiant contactoElement = new CodeStudiant();
+        cursorRne.moveToFirst();
+        contactoElement.setNombre(cursorRne.getString(3));
+        contactoElement.setRne(cursorRne.getString(1));
+        contactoElement.setFecha(cursorRne.getString(2));
+        db.close();
+        return contactoElement;
+    }
+
 
     @SuppressLint("Range")
     public long rne (String RNE, String fecha, String nombre)
@@ -70,7 +103,7 @@ public class CRUD extends database {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<contacto> leerRne(){
+    public List<CodeStudiant> leerRne(){
         Log.d("DB","RNE");
         database data = new database(context);
         SQLiteDatabase db = data.getWritableDatabase();
@@ -81,16 +114,16 @@ public class CRUD extends database {
                         "fecha TEXT," +
                         "nombre TEXT NOT NULL)");
         Log.d("DataBase123", "Paso2");
-        ArrayList<contacto> listaRne;
+        ArrayList<CodeStudiant> listaRne;
         listaRne = new ArrayList<>();
-        contacto contactoElement = null;
+        CodeStudiant contactoElement = null;
         Cursor cursorRne = null;
 
         cursorRne = db.rawQuery("SELECT * FROM t_rne ORDER BY id DESC", null);
         Log.d("DB","Antes");
         if(cursorRne.moveToFirst()) {
             for (int contador = 0; contador < cursorRne.getCount(); contador++) {
-                contactoElement = new contacto();
+                contactoElement = new CodeStudiant();
                 contactoElement.setNombre(cursorRne.getString(3));
                 contactoElement.setRne(cursorRne.getString(1));
                 contactoElement.setFecha(cursorRne.getString(2));

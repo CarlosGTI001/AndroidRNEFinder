@@ -1,11 +1,7 @@
 package com.carlosgti001.rnegen;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.UiModeManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -16,31 +12,26 @@ import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.text.Html;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlosgti001.rnegen.database.CRUD;
-import com.carlosgti001.rnegen.database.database;
 import com.carlosgti001.rnegen.databinding.ActivityFormularioBinding;
-import com.carlosgti001.rnegen.list.contacto;
+import com.carlosgti001.rnegen.list.CodeStudiant;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -56,15 +47,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+
 public class formulario extends AppCompatActivity implements IUnityAdsInitializationListener {
     public EditText fecha1, nombreTxt, apellido1Txt, apellido2Txt;
     public DatePickerDialog.OnDateSetListener dataSetListener;
-    private Boolean testMode = true;
+    private Boolean testMode = false;
     private String adUnitId = "Interstitial_Android";
     String unityGameID = "4056667";
     List<ListElement> elements;
     public RecyclerView rneLista;
-    ArrayList<contacto> listArrayContacto;
+    ArrayList<CodeStudiant> listArrayContacto;
 
 
     private IUnityAdsLoadListener loadListener = new IUnityAdsLoadListener() {
@@ -112,7 +104,7 @@ public class formulario extends AppCompatActivity implements IUnityAdsInitializa
         setSupportActionBar(toolbar);
         UnityAds.initialize(getApplicationContext(), unityGameID, testMode, this);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        toolBarLayout.setTitle("Formulario");
+        toolBarLayout.setTitle("Datos estudiantiles");
         CRUD dbRne = new CRUD(this);
         rneLista = findViewById(R.id.rneItems);
         rneLista.setLayoutManager(new LinearLayoutManager(this));
@@ -190,7 +182,7 @@ public class formulario extends AppCompatActivity implements IUnityAdsInitializa
                     String RNE = rneGen(name, firstname, seccondname, fechaFinal);
                     Date d = new Date();
                     CharSequence s = DateFormat.format("MMMM d, yyyy ", d.getTime());
-                    SimpleDateFormat sdf = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+                    SimpleDateFormat sdf = new SimpleDateFormat("d/MM/yyyy", new Locale("es", "ES"));
                     String formattedDate = sdf.format(d);
                     if(dbRne.buscarRNE(RNE)){
                         AlertDialog.Builder alerta = new AlertDialog.Builder(formulario.this);
@@ -201,10 +193,20 @@ public class formulario extends AppCompatActivity implements IUnityAdsInitializa
                         alerta.show();
                     }
                     else {
-                        dbRne.rne(RNE, formattedDate, name);
+                        String namePlus = "";
+                        if(seccondname.isEmpty()){
+                            namePlus = name + " " + firstname + " " + seccondname;
+                        } else {
+                            namePlus = name + " " + firstname;
+                        }
+                        dbRne.rne(RNE, formattedDate, namePlus);
                         dbRne.leerRne();
                         dbRne.close();
                         actualizar();
+                        nombreTxt.setText("");
+                        apellido1Txt.setText("");
+                        apellido2Txt.setText("");
+                        fecha1.setText("01/01/2001");
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(formulario.this);
                         alertDialog.setTitle("RNE Generado");
                         alertDialog.setMessage(Html.fromHtml("Tu RNE de las pruebas nacionales es: <b>" + RNE + "</b>, Si esta app te fue de mucha ayuda puedes valorarla con <b>5 Estrellas!</b>, Por cierto... Que deseas hacer con el RNE?."));
@@ -294,6 +296,25 @@ public class formulario extends AppCompatActivity implements IUnityAdsInitializa
                 break;
         }
     }
+    private static final int REQUEST_CODE = 1001;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // Procesa el resultado aquí utilizando los datos devueltos en 'data'
+                // por ejemplo:
+                if (data != null) {
+
+                    actualizar();
+                }
+            } else {
+                // Maneja otros resultados si es necesario
+            }
+        }
+    }
+
 
     public void actualizar() {
         CRUD dbRne = new CRUD(this);
@@ -301,7 +322,7 @@ public class formulario extends AppCompatActivity implements IUnityAdsInitializa
                 getSystemService(Context.CLIPBOARD_SERVICE);
         ListaContactosAdapter adapter = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            adapter = new ListaContactosAdapter((ArrayList<contacto>) dbRne.leerRne(), clipboard, this);
+            adapter = new ListaContactosAdapter((ArrayList<CodeStudiant>) dbRne.leerRne(), clipboard, this);
         }
         rneLista.setAdapter(adapter);
     }

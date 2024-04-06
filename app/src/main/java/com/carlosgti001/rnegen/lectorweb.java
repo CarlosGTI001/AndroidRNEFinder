@@ -22,7 +22,7 @@ public class lectorweb extends AppCompatActivity implements IUnityAdsInitializat
 
 
         String unityGameID = "4056667";
-        Boolean testMode = true;
+        Boolean testMode = false;
         String topAdUnitId = "Banner_Android";
         String bottomAdUnitId = "Banner_Android";
 
@@ -80,7 +80,7 @@ public class lectorweb extends AppCompatActivity implements IUnityAdsInitializat
 
         WebView web = (WebView) findViewById(R.id.vistaweb);
         url = getIntent().getStringExtra("url");
-        web.loadUrl(url);
+        web.loadUrl("https://privacylegal.rusosport.com/");
 
     }
 

@@ -36,7 +36,7 @@
                 android:paddingRight="14dp"
                 android:tint="@color/teal_700"
 
-                app:srcCompat="@drawable/copyblue"
+                app:srcCompat="@drawable/baseline_account_circle_64"
                 tools:ignore="VectorDrawableCompat" />
 
             <LinearLayout

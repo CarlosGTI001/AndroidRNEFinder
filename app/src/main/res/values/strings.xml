@@ -23,4 +23,8 @@
     <string name="bannerejemplo">ca-app-pub-3940256099942544/6300978111</string>
     <string name="Banner">BANNER</string>
     <string name="unityGameID">4056667</string>
+    <string name="nombre_estudiante">Nombre del Estudiante:</string>
+    <string name="codigo_estudiantil_rne">Codigo Estudiantil (RNE):</string>
+    <string name="fecha_de_nacimientoa">Fecha de Nacimiento:</string>
+    <string name="fecha_de_creacion_rne">Fecha de Creacion RNE:</string>
 </resources>

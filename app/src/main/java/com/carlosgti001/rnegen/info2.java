@@ -63,7 +63,7 @@ public class info2 extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
 
                     Intent ir = new Intent(info2.this, lectorweb.class);
-                    ir.putExtra("url", "http://rne.servercraftrd.xyz/politica.php");
+                    ir.putExtra("url", "https://privacylegal.rusosport.com/");
                     startActivity(ir);
                 }
             });
