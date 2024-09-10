@@ -124,10 +124,7 @@ public class RNEDetail extends AppCompatActivity {
             alertDialogo.setPositiveButton("Aceptar", (dialogInterface, i) -> {
                 boolean resultado = db.eliminarRNE(Rne);
                 if(resultado){
-                    Toast toast = new Toast(this);
-                    toast.setText("RNE Eliminado con exito");
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(this, "RNE Eliminado con éxito", Toast.LENGTH_SHORT).show();
                     Intent ide = new Intent();
                     ide.putExtra("key", "xDDD"); // Aquí puedes agregar los datos que desees pasar de vuelta a la actividad padre
                     setResult(RESULT_OK, intent);

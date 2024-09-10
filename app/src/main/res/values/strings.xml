@@ -2,6 +2,7 @@
     <string name="app_name">RNE Pruebas Nacionales</string>
     <string name="tut1">La mejor aplicacion para recordar tu RNE de las pruebas nacionales</string>
     <string name="title_activity_formulario">formulario</string>
+    <string name="rne_detail">Detalle de RNE</string>
     <string name="action_settings">Settings</string>
     <string name="segundo_apellido">Segundo Apellido</string>
     <string name="primer_apellido">Primer Apellido</string>

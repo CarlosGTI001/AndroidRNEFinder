@@ -17,9 +17,13 @@
         tools:targetApi="m" >
         <activity
             android:name=".RNEDetail"
-            android:exported="false" />
+            android:configChanges="uiMode"
+            android:exported="false"
+            android:label="@string/rne_detail"
+            />
         <activity
             android:name=".lectorweb"
+            android:configChanges="uiMode"
             android:exported="false" >
             <meta-data
                 android:name="android.app.lib_name"
